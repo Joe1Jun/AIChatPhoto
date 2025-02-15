@@ -16,6 +16,16 @@ const PhotoUploadButton: React.FC<PhotoUploadButtonProps> = ({ onUpload }) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
+    // Reset input value to allow re-uploading the same file
+  event.target.value = "";
+
+    // Create a temporary URL to display the image immediately
+  const localImageUrl = URL.createObjectURL(file);
+  
+  // Add the image to the chat immediately with the frontend URL
+   onUpload({ role: "user", content: localImageUrl });
+
+
     const formData = new FormData();
     formData.append("image", file);
 

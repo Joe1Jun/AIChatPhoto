@@ -114,9 +114,9 @@ const Chat = () => {
     <div className={`max-w-xs rounded-lg p-4 mt-6 ${m.role === 'user' ? 'bg-blue-200 self-start ml-4' : 'bg-gray-200 self-end mr-4'}`}>
       <span className="font-bold">{m.role === 'user' ? 'User: ' : 'AI: '}</span>
       
-      {/* If the content is an image URL, render an img tag */}
-      {m.content.startsWith('http') ? (
-        <img src={m.content} alt="Uploaded" className="max-w-full h-auto" />
+      {/* If the content is a valid image URL, render an img tag */}
+      {m.content.startsWith('http') || m.content.startsWith('blob:') ? (
+        <img src={m.content} alt="Uploaded" className="max-w-full h-auto rounded-md" />
       ) : (
         <span className="whitespace-pre-wrap text-black">{m.content}</span>
       )}
