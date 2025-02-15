@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import ConversationManager from "../Conversations/conversations";
+
 
 
 
@@ -21,7 +21,7 @@ const Navbar = () => {
           <Link to="/chat" className="hover:underline">New Chat</Link>
         </li>
         <li>
-          <ConversationManager/>
+        
         </li>
       </ul>
     </nav>

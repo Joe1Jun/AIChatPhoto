@@ -22,10 +22,11 @@ const PhotoUploadButton: React.FC<PhotoUploadButtonProps> = ({ onUpload }) => {
     setLoading(true);
 
     try {
-      const response = await axios.post("http://localhost:5000/analyze-image", formData, {
+      const response = await axios.post("http://localhost:5001/analyze-image", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
+      // Pass the image URL (response.data.analysis) to the parent
       onUpload({ role: "AI", content: response.data.analysis });
 
     } catch (error) {
@@ -36,27 +37,22 @@ const PhotoUploadButton: React.FC<PhotoUploadButtonProps> = ({ onUpload }) => {
     setLoading(false);
   };
 
-
-
-  return(
-    
+  return (
     <>
-    <input
-      type="file"
-      accept="image/*"
-      style={{ display: "none" }}
-      id="photo-upload"
-      onChange={handleFileChange}
-    />
-    <label htmlFor="photo-upload">
-      <IconButton color="primary" component="span" disabled={loading}>
-        {loading ? <CircularProgress size={24} /> : <PhotoCameraIcon />}
-      </IconButton>
-    </label>
-  </>
-
-  )
-  
+      <input
+        type="file"
+        accept="image/*"
+        style={{ display: "none" }}
+        id="photo-upload"
+        onChange={handleFileChange}
+      />
+      <label htmlFor="photo-upload">
+        <IconButton color="primary" component="span" disabled={loading}>
+          {loading ? <CircularProgress size={24} /> : <PhotoCameraIcon />}
+        </IconButton>
+      </label>
+    </>
+  );
 };
 
 export default PhotoUploadButton;

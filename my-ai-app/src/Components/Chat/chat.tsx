@@ -61,7 +61,7 @@ const Chat = () => {
       const response = await axios.post("http://localhost:5001/ask", {
        // messages: [{ id: userId , role : "user", content: message.content }],
        
-       
+        message : message.content
       });
   
       console.log("AI Response:", response.data.response);
@@ -87,10 +87,15 @@ const Chat = () => {
     }
   };
 
-  // Function to handle AI response from image upload
-const handlePhotoUploadResponse = (message: { role: string; content: string }) => {
-  setMessages(prevMessages => [...prevMessages, { ...message, id: uuidv4(), createdAt: new Date().toISOString() }]);
-};
+  const handlePhotoUploadResponse = (message: { role: string; content: string }) => {
+    // The content could be the URL to the image, so you need to handle it properly
+    setMessages(prevMessages => [
+      ...prevMessages,
+      { ...message, id: uuidv4(), createdAt: new Date().toISOString() }
+    ]);
+  };
+  
+  
   
   
   
@@ -104,17 +109,21 @@ const handlePhotoUploadResponse = (message: { role: string; content: string }) =
     <hr className="w-3/4 border-t-2 border-gray-400" />
   </div>
      <div className="flex-1  pb-24 px-4 mt-6 ">
-      {messages.map(m => (
+     {messages.map(m => (
+  <div key={m.id} className={`flex mb-4 ${m.role === 'user' ? 'justify-start' : 'justify-end'}`}>
+    <div className={`max-w-xs rounded-lg p-4 mt-6 ${m.role === 'user' ? 'bg-blue-200 self-start ml-4' : 'bg-gray-200 self-end mr-4'}`}>
+      <span className="font-bold">{m.role === 'user' ? 'User: ' : 'AI: '}</span>
+      
+      {/* If the content is an image URL, render an img tag */}
+      {m.content.startsWith('http') ? (
+        <img src={m.content} alt="Uploaded" className="max-w-full h-auto" />
+      ) : (
+        <span className="whitespace-pre-wrap text-black">{m.content}</span>
+      )}
+    </div>
+  </div>
+))}
 
-        <div key={m.id} className={`flex mb-4  ${m.role === 'user' ? 'justify-start' : 'justify-end'}`}>
-          <div className={`max-w-xs rounded-lg p-4 mt-6 ${m.role === 'user' ? 'bg-blue-200 self-start ml-4' : 'bg-gray-200 self-end mr-4'}`}>
-            <span className="font-bold ">{m.role === 'user' ? 'User: ' : 'AI: '}</span>
-            <span className="whitespace-pre-wrap text-black">{m.content}</span>
-            
-          </div>
-          
-        </div>
-      ))}
     </div>
 
     
