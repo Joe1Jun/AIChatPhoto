@@ -83,6 +83,8 @@ def analyze_image():
         # Define the full path to save the uploaded image
         image_path = os.path.join(UPLOAD_FOLDER, image.filename)
         image.save(image_path)  # Save the uploaded image
+
+        
         
         # Convert the saved image to a base64 string
         base64_image = image_to_base64(image_path)
